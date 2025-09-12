@@ -1,12 +1,11 @@
-import { BrowserRouter, Route, Routes } from "react-router";
+import DashBoard from "@/pages/dashboard";
+import { Route, Routes } from "react-router";
 
 export const RoutesConfig = () => {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<></>} />
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+      <Route path="/" element={<DashBoard />} />
+    </Routes>
   );
 };
 

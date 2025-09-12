@@ -6,6 +6,7 @@
 :root {
   font-synthesis: none;
   text-rendering: optimizeLegibility;
+  font-family: "Roboto", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   --radius: 0.625rem;
@@ -42,6 +43,12 @@
   --sidebar-ring: oklch(0.708 0 0);
 }
 
+html,
+body {
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -49,6 +56,13 @@
   --radius-xl: calc(var(--radius) + 4px);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+
+  --color-primary-50: #f0f2ed;
+  --color-primary-100: #c4ceb0;
+  --color-primary-200: #607848;
+  --color-secundary-100: #cccccc;
+  --color-secundary-200: #999999;
+
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
   --color-popover: var(--popover);
