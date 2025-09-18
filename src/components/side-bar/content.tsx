@@ -22,14 +22,14 @@ const SideBarContent = () => {
         <ul>
           <NavLink to="/">
             <li className="flex items-center gap-5 px-5 text-neutral-600 py-2 hover:bg-neutral-200 transition-all duration-300 ease-in-out">
-              <LayoutDashboard size={30} />
-              <span className="text-2xl">Dashboard</span>
+              <LayoutDashboard size={28} />
+              <span className="text-xl">Dashboard</span>
             </li>
           </NavLink>
           <NavLink to="/">
             <li className="flex items-center gap-5 px-5 text-neutral-600 py-2 hover:bg-neutral-200 transition-all duration-300 ease-in-out">
-              <FileQuestionMark size={31} />
-              <span className="text-2xl">Sobre</span>
+              <FileQuestionMark size={29} />
+              <span className="text-xl">Sobre</span>
             </li>
           </NavLink>
         </ul>

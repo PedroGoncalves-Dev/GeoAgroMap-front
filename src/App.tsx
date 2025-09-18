@@ -8,7 +8,7 @@ function App() {
       <DesktopSideBar />
       <div className="flex-1">
         <Header />
-        <main className="rounded-tl-2xl py-10">
+        <main className="rounded-tl-2xl py-10 px-10 h-[calc(100vh-4rem)]">
           <RoutesConfig />
         </main>
       </div>
