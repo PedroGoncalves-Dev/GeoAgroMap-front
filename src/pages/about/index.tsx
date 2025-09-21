@@ -44,6 +44,11 @@ const About = () => {
       icon: <Shield className="w-4 h-4" />,
     },
     {
+      name: "Shadcn UI",
+      category: "Components",
+      icon: <Code className="w-4 h-4" />,
+    },
+    {
       name: "React Hook Form",
       category: "Forms",
       icon: <Code className="w-4 h-4" />,
@@ -79,13 +84,13 @@ const About = () => {
       icon: <BarChart className="w-6 h-6 text-primary-200" />,
     },
     {
-      title: "Mapas Geográficos",
+      title: "Mapa Geográfico",
       description:
         "Visualização de dados em mapas interativos com informações regionais",
       icon: <MapPin className="w-6 h-6 text-primary-200" />,
     },
     {
-      title: "Filtros Avançados",
+      title: "Filtros",
       description:
         "Sistema de filtros para consultar dados por produto, região, ano e variável",
       icon: <Filter className="w-6 h-6 text-primary-200" />,

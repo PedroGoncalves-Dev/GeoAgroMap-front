@@ -42,7 +42,7 @@ const Dashboard = () => {
 
   return (
     <div className="w-full max-h-[calc(100vh-4rem)] rounded-2xl p-5">
-      <div className="flex justify-between items-center border border-primary-100 rounded-2xl mb-5 p-4">
+      <div className="flex sm:flex-row flex-col gap-4 sm:gap-0 justify-between items-center border border-primary-100 rounded-2xl mb-5 p-4">
         <div className="flex items-center gap-2">
           <span>Visualização</span>
           <Select

@@ -27,9 +27,8 @@ const Chart = ({
     });
   };
 
-  // Calcula a largura mínima baseada no número de dados
   const getMinWidth = (dataLength: number) => {
-    return Math.max(dataLength * 80, 400); // Mínimo 80px por barra, mínimo absoluto 400px
+    return Math.max(dataLength * 80, 400);
   };
   const chartConfig = {
     desktop: {
@@ -51,7 +50,7 @@ const Chart = ({
           return (
             <Card
               key={`${item.product.id}-${item.variable.id}`}
-              className="w-[80%]"
+              className="w-full 2xl:w-[60%]"
             >
               <CardHeader>
                 <CardTitle>{item.product.name}</CardTitle>
@@ -80,7 +79,6 @@ const Chart = ({
                       height={60}
                       interval={0}
                       tickFormatter={(value) => {
-                        // Se o nome for muito longo, corta e adiciona "..."
                         return value.length > 12
                           ? `${value.slice(0, 12)}...`
                           : value;
@@ -93,7 +91,11 @@ const Chart = ({
                         <ChartTooltipContent
                           hideLabel={false}
                           labelFormatter={(value) => `Local: ${value}`}
-                          formatter={(value) => [value, item.variable.unit]}
+                          formatter={(value) => [
+                            value,
+                            " ",
+                            item.variable.unit,
+                          ]}
                         />
                       }
                     />
@@ -107,10 +109,15 @@ const Chart = ({
               </CardContent>
               <CardFooter className="flex-col items-start gap-2 text-sm">
                 <div className="flex gap-2 leading-none font-medium">
-                  Dados de {selectedYear} <TrendingUp className="h-4 w-4" />
+                  <p className="flex items-center gap-2">
+                    Dados de {selectedYear} <TrendingUp className="h-4 w-4" />
+                  </p>
                 </div>
-                <div className="text-muted-foreground leading-none">
-                  {item.variable.unit} por região
+                <div className="text-muted-foreground leading-none flex items-center justify-between w-full">
+                  <p>{item.variable.unit} por região</p>
+                  <p className="text-muted-foreground leading-none">
+                    Fonte: IBGE
+                  </p>
                 </div>
               </CardFooter>
             </Card>
