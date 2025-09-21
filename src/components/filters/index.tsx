@@ -8,22 +8,29 @@ import {
 } from "@/components/ui/sheet";
 import { Button } from "../ui/button";
 import { FilterIcon } from "lucide-react";
-import { useGetFiltersPeriods } from "@/shared/queries/get-filters-periods";
+import { useGetFiltersPeriods } from "@/shared/queries/filters/get-filters-periods";
 import { useForm } from "react-hook-form";
 import { filterSchema, type FilterSchema } from "@/schema/filter-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-
-import { useGetFiltersMetadados } from "@/shared/queries/get-filters-metadados";
-import SelectTable from "./select-table";
+import { useGetFiltersMetadados } from "@/shared/queries/filters/get-filters-metadados";
 import FormFilters from "./form";
+import { useGetFiltersRegions } from "@/shared/queries/filters/get-filters-regions";
+import type { PayloadFilterForResult } from "@/shared/types/payload-filter-for-result";
 
-const Filters = () => {
+interface filtersProps {
+  mutateResult: (data: PayloadFilterForResult) => void;
+}
+
+const Filters = ({ mutateResult }: filtersProps) => {
   const form = useForm<FilterSchema>({
     resolver: zodResolver(filterSchema),
     defaultValues: {
       idTable: "",
-      products: [],
-    },
+      variables: undefined,
+      products: undefined,
+      periods: undefined,
+      locality: undefined,
+    } as Partial<FilterSchema>,
   });
 
   const idTable = form.watch("idTable");
@@ -35,14 +42,28 @@ const Filters = () => {
 
   const products = metadados?.classificacoes[0].categorias;
   const variables = metadados?.variaveis;
+  const idClassification = metadados?.classificacoes[0].id || 0;
   const buttonDisabled = !idTable || isLoadingMetadados || isLoadingPeriods;
+
+  const { data: regions, isLoading: isLoadingRegions } = useGetFiltersRegions();
 
   const handleClear = () => {
     form.reset();
   };
 
-  const onSubmit = (data: FilterSchema) => {
-    console.log(data);
+  const tranformLocality = (locality: "N1" | "N2" | "N3" | undefined) => {
+    if (locality === "N1") return "";
+    if (locality === "N2") return "regiao";
+    if (locality === "N3") return "UF";
+    return "";
+  };
+
+  const onSubmit = async (data: FilterSchema) => {
+    const { locality } = data;
+    const intraRegion = tranformLocality(locality);
+    const payload = { ...data, idClassification, intraRegion };
+
+    return mutateResult(payload);
   };
 
   return (
@@ -71,6 +92,8 @@ const Filters = () => {
           variables={variables || []}
           products={products || []}
           periods={periods || []}
+          regions={regions || []}
+          isLoadingRegions={isLoadingRegions}
           buttonDisabled={buttonDisabled}
           handleClear={handleClear}
         />

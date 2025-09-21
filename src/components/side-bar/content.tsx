@@ -20,14 +20,24 @@ const SideBarContent = () => {
 
       <nav>
         <ul>
-          <NavLink to="/">
-            <li className="flex items-center gap-5 px-5 text-neutral-600 py-2 hover:bg-neutral-200 transition-all duration-300 ease-in-out">
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              `block ${isActive ? "bg-primary-75" : ""}`
+            }
+          >
+            <li className="flex items-center gap-5 px-5 text-neutral-600 py-2 hover:bg-primary-100 transition-all duration-300 ease-in-out">
               <LayoutDashboard size={28} />
               <span className="text-xl">Dashboard</span>
             </li>
           </NavLink>
-          <NavLink to="/">
-            <li className="flex items-center gap-5 px-5 text-neutral-600 py-2 hover:bg-neutral-200 transition-all duration-300 ease-in-out">
+          <NavLink
+            to="/sobre"
+            className={({ isActive }) =>
+              `block ${isActive ? "bg-primary-75" : ""}`
+            }
+          >
+            <li className="flex items-center gap-5 px-5 text-neutral-600 py-2 hover:bg-primary-100 transition-all duration-300 ease-in-out">
               <FileQuestionMark size={29} />
               <span className="text-xl">Sobre</span>
             </li>

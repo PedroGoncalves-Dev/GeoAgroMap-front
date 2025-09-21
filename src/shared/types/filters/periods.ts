@@ -1,5 +1,5 @@
 export type YearItem = {
-  id: string;
+  id: number;
   literals: string[];
   modificacao: string;
 };

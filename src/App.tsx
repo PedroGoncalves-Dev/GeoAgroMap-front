@@ -6,7 +6,7 @@ function App() {
   return (
     <div className="flex flex-row h-screen">
       <DesktopSideBar />
-      <div className="flex-1">
+      <div className="flex-1 lg:ml-[300px]">
         <Header />
         <main className="rounded-tl-2xl py-10 px-10 h-[calc(100vh-4rem)]">
           <RoutesConfig />

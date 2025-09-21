@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { apiMetadados } from "../api/filters/metadados";
+import { apiMetadados } from "../../api/filters/metadados";
 
 export const useGetFiltersMetadados = (idTable: string) => {
   return useQuery({

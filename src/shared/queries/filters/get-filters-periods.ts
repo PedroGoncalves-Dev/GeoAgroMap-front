@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { apiPeriods } from "../api/filters/periods";
+import { apiPeriods } from "../../api/filters/periods";
 
 export const useGetFiltersPeriods = (idTable: string) => {
   return useQuery({

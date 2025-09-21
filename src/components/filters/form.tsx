@@ -1,8 +1,13 @@
 import { SkeletonFilters } from "../loading/skeleton/skeleton-filters";
 import ErrorAlert from "../alerts/filters/error-alert";
 import SelectTableAlert from "../alerts/filters/select-table-alert";
-import { Form, FormControl, FormField, FormItem } from "../ui/form";
-import { Checkbox } from "../ui/checkbox";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "../ui/form";
 import { Label } from "../ui/label";
 import SelectTable from "./select-table";
 import type { UseFormReturn } from "react-hook-form";
@@ -13,6 +18,8 @@ import type {
 } from "@/shared/types/filters/metadados";
 import type { PeriodsResponse } from "@/shared/types/filters/periods";
 import { Button } from "../ui/button";
+import type { Region } from "@/shared/types/filters/ufs";
+import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 
 interface FormFiltersProps {
   form: UseFormReturn<FilterSchema>;
@@ -25,6 +32,8 @@ interface FormFiltersProps {
   periods: PeriodsResponse;
   buttonDisabled: boolean;
   handleClear: () => void;
+  regions: Region[];
+  isLoadingRegions: boolean;
 }
 const FormFilters = ({
   form,
@@ -38,6 +47,24 @@ const FormFilters = ({
   buttonDisabled,
   handleClear,
 }: FormFiltersProps) => {
+  const locality = [
+    {
+      id: 1,
+      name: "Brasil",
+      value: "N1",
+    },
+    {
+      id: 2,
+      name: "Grande região [5]",
+      value: "N2",
+    },
+    {
+      id: 3,
+      name: "Unidade da Federação [28]",
+      value: "N3",
+    },
+  ];
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -50,51 +77,48 @@ const FormFilters = ({
             <div className="flex flex-col gap-2 mt-2 pl-2.5 overflow-y-auto max-h-20">
               {isLoadingMetadados && <SkeletonFilters />}
 
-              {!isLoadingMetadados &&
-                variables &&
-                variables?.map((variable) => (
-                  <FormField
-                    key={variable.id}
-                    control={form.control}
-                    name="variables"
-                    render={({ field }) => {
-                      const currentValue = field.value || [];
-                      return (
-                        <FormItem className="flex flex-row items-center gap-2">
-                          <FormControl>
-                            <Checkbox
-                              id={variable.id.toString()}
-                              className="cursor-pointer"
-                              checked={currentValue.includes(variable.id)}
-                              onCheckedChange={(checked) => {
-                                if (checked) {
-                                  field.onChange([
-                                    ...currentValue,
-                                    variable.id,
-                                  ]);
-                                } else {
-                                  field.onChange(
-                                    currentValue.filter(
-                                      (value) => value !== variable.id
-                                    )
-                                  );
-                                }
-                              }}
-                            />
-                          </FormControl>
-                          <Label
-                            htmlFor={variable.id.toString()}
-                            className="text-sm font-normal cursor-pointer"
-                          >
-                            {variable.nome}
-                          </Label>
-                        </FormItem>
-                      );
-                    }}
-                  />
-                ))}
+              {!isLoadingMetadados && variables && (
+                <FormField
+                  control={form.control}
+                  name="variables"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormMessage />
+                      <FormControl>
+                        <RadioGroup
+                          value={field.value?.toString() || ""}
+                          onValueChange={(value) =>
+                            field.onChange(Number(value))
+                          }
+                          className="flex flex-col gap-2"
+                        >
+                          {variables.map((variable) => (
+                            <div
+                              key={variable.id}
+                              className="flex items-center space-x-2"
+                            >
+                              <RadioGroupItem
+                                className="cursor-pointer"
+                                value={variable.id.toString()}
+                                id={variable.id.toString()}
+                              />
+                              <Label
+                                htmlFor={variable.id.toString()}
+                                className="text-sm font-normal cursor-pointer"
+                              >
+                                {variable.nome}
+                              </Label>
+                            </div>
+                          ))}
+                        </RadioGroup>
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+              )}
             </div>
           </div>
+
           <div className="border border-primary-100 rounded-md h-auto p-2 max-h-32">
             <h3 className=" font-bold">
               {idTable === "1612" && "Produtos das lavouras temporárias*"}
@@ -105,46 +129,45 @@ const FormFilters = ({
             {!idTable && <SelectTableAlert />}
             <div className="flex flex-col gap-2 mt-2 pl-2.5 overflow-y-auto max-h-20">
               {isLoadingMetadados && <SkeletonFilters />}
-              {!isLoadingMetadados &&
-                products &&
-                products?.map((product) => (
-                  <FormField
-                    key={product.id}
-                    control={form.control}
-                    name="products"
-                    render={({ field }) => {
-                      const currentValue = field.value || [];
-                      return (
-                        <FormItem className="flex flex-row items-center gap-2">
-                          <FormControl>
-                            <Checkbox
-                              id={product.id.toString()}
-                              className="cursor-pointer"
-                              checked={currentValue.includes(product.id)}
-                              onCheckedChange={(checked) => {
-                                if (checked) {
-                                  field.onChange([...currentValue, product.id]);
-                                } else {
-                                  field.onChange(
-                                    currentValue.filter(
-                                      (value) => value !== product.id
-                                    )
-                                  );
-                                }
-                              }}
-                            />
-                          </FormControl>
-                          <Label
-                            htmlFor={product.id.toString()}
-                            className="text-sm font-normal cursor-pointer"
-                          >
-                            {product.nome}
-                          </Label>
-                        </FormItem>
-                      );
-                    }}
-                  />
-                ))}
+              {!isLoadingMetadados && products && (
+                <FormField
+                  control={form.control}
+                  name="products"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormMessage />
+                      <FormControl>
+                        <RadioGroup
+                          value={field.value?.toString() || ""}
+                          onValueChange={(value) =>
+                            field.onChange(Number(value))
+                          }
+                          className="flex flex-col gap-2"
+                        >
+                          {products.map((product) => (
+                            <div
+                              key={product.id}
+                              className="flex items-center space-x-2"
+                            >
+                              <RadioGroupItem
+                                className="cursor-pointer"
+                                value={product.id.toString()}
+                                id={product.id.toString()}
+                              />
+                              <Label
+                                htmlFor={product.id.toString()}
+                                className="text-sm font-normal cursor-pointer"
+                              >
+                                {product.nome}
+                              </Label>
+                            </div>
+                          ))}
+                        </RadioGroup>
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+              )}
             </div>
           </div>
           <div className="border border-primary-100 rounded-md p-2 h-auto">
@@ -159,19 +182,84 @@ const FormFilters = ({
                 />
               )}
 
-              {!isLoadingPeriods &&
-                periods &&
-                periods?.map((period) => (
-                  <div className="flex items-center gap-2" key={period.id}>
-                    <Checkbox id={period.id} className="cursor-pointer" />
-                    <Label
-                      htmlFor={period.id}
-                      className="text-sm font-normal cursor-pointer"
-                    >
-                      {period.literals[0]}
-                    </Label>
-                  </div>
-                ))}
+              {!isLoadingPeriods && periods && (
+                <FormField
+                  control={form.control}
+                  name="periods"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormMessage />
+                      <FormControl>
+                        <RadioGroup
+                          value={field.value || ""}
+                          onValueChange={field.onChange}
+                          className="flex flex-col gap-2"
+                        >
+                          {periods.map((period) => (
+                            <div
+                              key={period.id}
+                              className="flex items-center space-x-2"
+                            >
+                              <RadioGroupItem
+                                className="cursor-pointer"
+                                value={period.id.toString()}
+                                id={period.id.toString()}
+                              />
+                              <Label
+                                htmlFor={period.id.toString()}
+                                className="text-sm font-normal cursor-pointer"
+                              >
+                                {period.literals}
+                              </Label>
+                            </div>
+                          ))}
+                        </RadioGroup>
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+              )}
+            </div>
+          </div>
+
+          <div className="border border-primary-100 rounded-md p-2 h-auto">
+            <h3 className="font-bold">Localização*</h3>
+
+            <div className="flex flex-col gap-2 mt-2 pl-2.5 overflow-y-auto max-h-25">
+              <FormField
+                control={form.control}
+                name="locality"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormMessage />
+                    <FormControl>
+                      <RadioGroup
+                        defaultValue={field.value || ""}
+                        onValueChange={field.onChange}
+                        className="flex flex-col gap-2"
+                      >
+                        {locality.map((location) => (
+                          <div
+                            key={location.id}
+                            className="flex items-center space-x-2"
+                          >
+                            <RadioGroupItem
+                              value={location.value}
+                              id={location.id.toString()}
+                            />
+                            <Label
+                              htmlFor={location.id.toString()}
+                              className="text-sm font-normal cursor-pointer"
+                            >
+                              {location.name}
+                            </Label>
+                          </div>
+                        ))}
+                      </RadioGroup>
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
             </div>
           </div>
         </div>
