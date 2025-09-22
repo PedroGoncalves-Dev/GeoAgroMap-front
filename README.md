@@ -141,6 +141,74 @@ npm run dev
 
 A aplicação estará disponível em `http://localhost:5173`
 
+## 🐳 Executando com Docker
+
+O projeto inclui configuração Docker para facilitar o desenvolvimento e deploy. Você pode executar a aplicação usando Docker de duas formas:
+
+### Pré-requisitos para Docker
+
+- **Docker** (versão 20.x ou superior)
+- **Docker Compose** (versão 3.8 ou superior)
+
+### Opção 1: Docker Compose (Recomendado)
+
+```bash
+# 1. Clone o repositório
+git clone https://github.com/seu-usuario/GeoAgroMap-front.git
+cd GeoAgroMap-front
+
+# 2. Execute com Docker Compose
+docker-compose up
+```
+
+A aplicação estará disponível em `http://localhost:5173`
+
+### Opção 2: Docker Build Manual
+
+```bash
+# 1. Construir a imagem Docker
+docker build -t geoagromap-front .
+
+# 2. Executar o container
+docker run -p 5173:5173 -v "${PWD}:/app" -v /app/node_modules --name geoagromap-dev geoagromap-front
+```
+
+### Comandos Docker Úteis
+
+```bash
+# Parar os containers
+docker-compose down
+
+# Parar e remover volumes
+docker-compose down -v
+
+# Ver logs em tempo real
+docker-compose logs -f frontend
+
+# Reconstruir a imagem (após mudanças no Dockerfile)
+docker-compose up --build
+
+# Executar comandos dentro do container
+docker-compose exec frontend sh
+
+# Parar container individual
+docker stop geoagromap-front
+
+# Remover container
+docker rm geoagromap-front
+
+# Ver containers em execução
+docker ps
+```
+
+### Características do Setup Docker
+
+- **Hot Reload**: Mudanças no código são refletidas automaticamente
+- **Volume Mapping**: Código local sincronizado com o container
+- **Node Modules**: Isolados no container para evitar conflitos
+- **Porta 5173**: Mapeada para acesso local
+- **Ambiente de Desenvolvimento**: Configurado para desenvolvimento com Vite
+
 ### 4. Scripts Disponíveis
 
 ```bash
