@@ -65,21 +65,25 @@ const Dashboard = () => {
       {!resultDataQuery.length && !isLoadingResult && <AlertToFilter />}
       {isLoadingResult && <SkeletonDashboard />}
 
-      {selectedView === "grafico" ? (
-        <div className="flex items-center justify-center">
-          <Chart
-            resultDataQuery={resultDataQuery}
-            selectedYear={selectedYear}
-          />
-        </div>
-      ) : (
-        <div className="relative z-0 border border-primary-100 rounded-2xl p-10">
-          <Map
-            geoJsonData={resultData?.dataKnitwear}
-            chartData={resultDataQuery}
-            selectedYear={selectedYear}
-          />
-        </div>
+      {resultDataQuery.length && !isLoadingResult && (
+        <>
+          {selectedView === "grafico" ? (
+            <div className="flex items-center justify-center">
+              <Chart
+                resultDataQuery={resultDataQuery}
+                selectedYear={selectedYear}
+              />
+            </div>
+          ) : (
+            <div className="relative z-0 border border-primary-100 rounded-2xl p-10">
+              <Map
+                geoJsonData={resultData?.dataKnitwear}
+                chartData={resultDataQuery}
+                selectedYear={selectedYear}
+              />
+            </div>
+          )}
+        </>
       )}
     </div>
   );
