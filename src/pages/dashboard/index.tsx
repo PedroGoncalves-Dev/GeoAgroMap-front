@@ -65,7 +65,7 @@ const Dashboard = () => {
       {!resultDataQuery.length && !isLoadingResult && <AlertToFilter />}
       {isLoadingResult && <SkeletonDashboard />}
 
-      {resultDataQuery.length && !isLoadingResult && (
+      {resultDataQuery.length > 0 && !isLoadingResult && (
         <>
           {selectedView === "grafico" ? (
             <div className="flex items-center justify-center">
